@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+service TodoService {
+    rpc CreateTodo (NewTodo) returns (TodoItem) {}
+    rpc GetTodos (TodoQuery) returns (TodoItems) {}
+    rpc EditTodo (EditRequest) returns (TodoItem) {}
+    rpc DeleteTodo (DeleteRequest) returns (TodoItem) {}
+}
+
+message NewTodo {
+    string name = 1;
+    string description = 2;
+    string dueDate = 3;
+}
+
+message TodoQuery {
+    bool includeCompleted = 1;
+}
+
+message EditRequest {
+    int32 id = 1;
+    bool newState = 2;
+}
+
+message DeleteRequest {
+    int32 id = 1;
+}
+
+message TodoItems {
+    repeated TodoItem items = 1;
+}
+
+message TodoItem {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    string dueDate = 4;
+    bool completed = 5;
+}

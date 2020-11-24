@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  # Main gRPC Service, handles creation and storage of todo items
+  todo_service:
+    build: ./server
+    ports:
+      - "9090:9090"
+    environment:
+      - PORT=9090
+      - DB_PATH=../_db/database.db
+      - WORKERS=3
+    volumes: 
+      - ./_db:/_db
+  # Proxy between gRPC-web client and gRPC server
+  proxy_service:
+    build: ./proxy
+    ports:
+      - "8080:8080"
+  # NGINX web client, webpack including proto client
+  client_service:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes: 
+      - ./client/dist:/usr/share/nginx/html
+    
+    
